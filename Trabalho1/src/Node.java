@@ -11,6 +11,11 @@ public class Node {
 		this.simbol = null;
 		this.accFreq = 0;
 	}
+	
+	public Node(Simbol simbol){
+		this.simbol = simbol;
+		this.accFreq = simbol.getFrequency();
+	}
 
 	public Node getLeft() {
 		return left;

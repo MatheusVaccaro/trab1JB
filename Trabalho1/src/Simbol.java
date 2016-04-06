@@ -8,7 +8,7 @@ public class Simbol {
 		this.frequency = 1;
 	}
 	
-	private void update(){
+	public void update(){
 		this.frequency++;
 	}
 
@@ -27,4 +27,11 @@ public class Simbol {
 	public void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
+
+	@Override
+	public String toString() {
+		return "Simbol [character=" + character + ", frequency=" + frequency
+				+ "]";
+	}
+	
 }

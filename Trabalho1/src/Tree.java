@@ -5,6 +5,10 @@ public class Tree {
 	public Tree(Node root){
 		this.root = root;
 	}
+	
+	public Tree(){
+		
+	}
 
 	public Node getRoot() {
 		return root;
@@ -13,4 +17,5 @@ public class Tree {
 	public void setRoot(Node root) {
 		this.root = root;
 	}
+
 }
