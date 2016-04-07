@@ -44,7 +44,7 @@ public class App {
 			e.printStackTrace();
 			System.err.println("Erro de I/O");
 		}
-		
+		//atualiza frequencia dos caracteres no array
 		for(Tree tree: trees){
 			Node treeNode = tree.getRoot();
 			Simbol dicSimbol = dic.get(treeNode.getSimbol().getCharacter());
@@ -53,25 +53,20 @@ public class App {
 			
 		}
 		
-		System.out.println(trees);
-		
-		heapify(trees,0);
-		
-		System.out.println(trees);
-		
-		trees.remove(0);
-		trees.trimToSize();//wtf?
-		System.out.println(trees);
-		
-		heapify(trees, 0);
-		
-		System.out.println(trees);
-		
-		/*System.out.println(trees);
+		//arvore de huffmann
+		//System.out.println(trees);
 		unifyTrees(trees);
-		System.out.println(trees);
+		//System.out.println(trees);
 		Tree masterTree = trees.get(0);
-		masterTree.printBonito();*/
+		masterTree.printBonito();
+		
+		//coloca os codigos para cada caracter no dic
+		for(Simbol simbol: dic.values()){
+			String path = findCode(masterTree.getRoot(), simbol.getCharacter(), "");
+			simbol.setCode(path);
+		}
+		
+		System.out.println(dic);
 	}
 	
 	private static Tree unifyTrees(Tree tree1, Tree tree2){
@@ -124,5 +119,18 @@ public class App {
 		trees.trimToSize();//wtf?2
 		trees.add(unifyTrees(treeA, treeB));
 		unifyTrees(trees);
+	}
+	
+	public static String findCode(Node node, char character, String path){
+		if(node == null) return "";
+		Simbol simbol = node.getSimbol();
+		if(simbol != null){
+			if(simbol.getCharacter() == character) return path;
+		}
+		String res = findCode(node.getLeft(), character, path + "0");
+		if(res.equals("")){
+			res = findCode(node.getRight(), character, path + "1");
+		}
+		return res;
 	}
 }
