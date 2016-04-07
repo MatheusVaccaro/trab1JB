@@ -28,10 +28,14 @@ public class Simbol {
 		this.frequency = frequency;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Simbol [character=" + character + ", frequency=" + frequency
 				+ "]";
+	}*/
+	
+	public String toString(){
+		return "" + this.character;
 	}
 	
 }

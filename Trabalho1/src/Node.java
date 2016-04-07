@@ -48,11 +48,18 @@ public class Node {
 	public void setSimbol(Simbol simbol) {
 		this.simbol = simbol;
 	}
+	
+	public void update(){
+		this.accFreq++;
+	}
 
 	@Override
-	public String toString() {
+	/*public String toString() {
 		return "Node [left=" + left + ", right=" + right + ", simbol=" + simbol
 				+ ", accFreq=" + accFreq + "]";
+	}*/
+	public String toString(){
+		return this.simbol + " - " + this.accFreq;
 	}
 
 	

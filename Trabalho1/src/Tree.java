@@ -18,4 +18,23 @@ public class Tree {
 		this.root = root;
 	}
 
+	/*@Override
+	public String toString() {
+		return "Tree [root=" + root + "]";
+	}*/
+	public String toString(){
+		return this.root.toString();
+	}
+	
+	public void printBonito(){
+		printBonito(root, "");
+		
+	}
+	
+	private void printBonito(Node root, String offset){
+		if(root == null) return;
+		printBonito(root.getRight(), offset + "\t");
+		System.out.println(offset + root);
+		printBonito(root.getLeft(), offset + "\t");
+	}
 }
