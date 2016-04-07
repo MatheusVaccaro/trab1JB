@@ -37,4 +37,6 @@ public class Tree {
 		System.out.println(offset + root);
 		printBonito(root.getLeft(), offset + "\t");
 	}
+	
+
 }

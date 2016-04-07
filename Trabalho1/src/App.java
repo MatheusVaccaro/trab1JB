@@ -53,7 +53,7 @@ public class App {
 			
 		}
 		
-		/*System.out.println(trees);
+		System.out.println(trees);
 		
 		heapify(trees,0);
 		
@@ -65,13 +65,13 @@ public class App {
 		
 		heapify(trees, 0);
 		
-		System.out.println(trees);*/
-		
 		System.out.println(trees);
+		
+		/*System.out.println(trees);
 		unifyTrees(trees);
 		System.out.println(trees);
 		Tree masterTree = trees.get(0);
-		masterTree.printBonito();
+		masterTree.printBonito();*/
 	}
 	
 	private static Tree unifyTrees(Tree tree1, Tree tree2){
@@ -89,20 +89,25 @@ public class App {
 	}
 	
 	private static void heapify(ArrayList<Tree> trees, int i){
-		if(i*2+1 >= trees.size() || i*2+2 >= trees.size()) return;
+		if(i >= trees.size()) return;
+		if(i*2+1 >= trees.size() && i*2+2 >= trees.size()) return;
 		heapify(trees, i*2+1);
 		heapify(trees, i*2+2);
-		Tree nLeft = trees.get(i*2+1);
-		Tree nRight = trees.get(i*2+2);
-		if(trees.get(i).getRoot().getAccFreq() > nLeft.getRoot().getAccFreq()){
-			Tree temp = trees.get(i);
-			trees.set(i, nLeft);
-			trees.set(i*2+1, temp);
+		if(i*2+1 < trees.size()){
+			Tree nLeft = trees.get(i*2+1);			
+			if(trees.get(i).getRoot().getAccFreq() > nLeft.getRoot().getAccFreq()){
+				Tree temp = trees.get(i);
+				trees.set(i, nLeft);
+				trees.set(i*2+1, temp);
+			}
 		}
-		if(trees.get(i).getRoot().getAccFreq() > nRight.getRoot().getAccFreq()){
-			Tree temp = trees.get(i);
-			trees.set(i, nRight);
-			trees.set(i*2+2, temp);
+		if(i*2+2 < trees.size()){
+			Tree nRight = trees.get(i*2+2);			
+			if(trees.get(i).getRoot().getAccFreq() > nRight.getRoot().getAccFreq()){
+				Tree temp = trees.get(i);
+				trees.set(i, nRight);
+				trees.set(i*2+2, temp);
+			}
 		}
 	}
 	
