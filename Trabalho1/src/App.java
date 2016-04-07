@@ -54,9 +54,7 @@ public class App {
 		}
 		
 		//arvore de huffmann
-		//System.out.println(trees);
 		unifyTrees(trees);
-		//System.out.println(trees);
 		Tree masterTree = trees.get(0);
 		masterTree.printBonito();
 		
