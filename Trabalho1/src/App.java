@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class App {
 		Map<Character, Simbol> dic = new HashMap<>();
 		
 		//Leitura de dados
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test.txt"))))){
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("arq2.txt"))))){
 			int character;
 			while((character = reader.read()) != -1){
 				char letter = (char) character;
@@ -56,15 +58,41 @@ public class App {
 		//arvore de huffmann
 		unifyTrees(trees);
 		Tree masterTree = trees.get(0);
-		masterTree.printBonito();
+		//masterTree.printBonito();
 		
 		//coloca os codigos para cada caracter no dic
 		for(Simbol simbol: dic.values()){
 			String path = findCode(masterTree.getRoot(), simbol.getCharacter(), "");
 			simbol.setCode(path);
 		}
-		
-		System.out.println(dic);
+		masterTree.printBonito();
+		//codificação do texto
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("arq2.txt"))))){
+			int character;
+
+			File file = new File("arq2Codified.txt");
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);			
+
+			while((character = reader.read()) != -1){
+				char letter = (char) character;
+				Simbol simbol = dic.get(letter);
+				String code = simbol.getCode();
+				bw.write(code);
+			}
+			bw.close();
+			System.out.println("Done");
+		}
+				catch(Exception e){
+			e.printStackTrace();
+			System.err.println("Erro de I/O - deu ruim na codificação");
+		}
 	}
 	
 	private static Tree unifyTrees(Tree tree1, Tree tree2){
