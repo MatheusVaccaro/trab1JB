@@ -24,8 +24,14 @@ public class App {
 		ArrayList<Tree> trees = new ArrayList<>();
 		Map<Character, Simbol> dic = new HashMap<>();
 		
+		
+////////////////////////////////////////////
+		File fileIn = new File("test.txt");
+////////////////////////////////////////////
+		
+		
 		//Leitura de dados
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2.txt"))))){
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn)))){
 			int character;
 			while((character = reader.read()) != -1){
 				char letter = (char) character;
@@ -46,10 +52,7 @@ public class App {
 			e.printStackTrace();
 			System.err.println("Erro de I/O");
 		}
-		
-		
-		
-		
+				
 		//atualiza frequencia dos caracteres no array
 		for(Tree tree: trees){
 			Node treeNode = tree.getRoot();
@@ -58,11 +61,7 @@ public class App {
 			treeNode.setAccFreq(freq);
 			
 		}		
-		
-		
-		
-		
-		
+			
 		//arvore de huffmann
 		unifyTrees(trees);
 		Tree masterTree = trees.get(0);
@@ -76,21 +75,23 @@ public class App {
 		//masterTree.printBonito();
 		//System.out.println(dic);
 		
-		
-		
-		
 		//codificação do texto
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2.txt"))))){
+		
+		
+/////////////////////////////////////////////////////////
+		File fileCodified = new File("testCodified.txt");
+/////////////////////////////////////////////////////////
+		
+		
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn)))){
 			int character;
 
-			File file = new File("test2Codified.txt");
-
 			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
+			if (!fileCodified.exists()) {
+				fileCodified.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			FileWriter fw = new FileWriter(fileCodified.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);			
 
 			while((character = reader.read()) != -1){
@@ -100,27 +101,29 @@ public class App {
 				bw.write(code);
 			}
 			bw.close();
-			System.out.println("Done");
+			System.out.println("Done Codifying");
 		}
 				catch(Exception e){
 			e.printStackTrace();
 			System.err.println("Erro de I/O - deu ruim na codificação");
 		}
 		
-		
-		
 		//descodificação
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2Codified.txt"))))){
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileCodified)))){
 			int character;
 
-			File file = new File("test2CodifiedUndo.txt");
-
+			
+//////////////////////////////////////////////////////////////////
+			File fileUncodified = new File("testUncodified.txt");
+/////////////////////////////////////////////////////////////////
+			
+			
 			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
+			if (!fileUncodified.exists()) {
+				fileUncodified.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			FileWriter fw = new FileWriter(fileUncodified.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);			
 			
 			String code = "";
@@ -135,7 +138,7 @@ public class App {
 				}
 			}
 			bw.close();
-			System.out.println("Done");
+			System.out.println("Done Uncodifying");
 		}
 				catch(Exception e){
 			e.printStackTrace();
