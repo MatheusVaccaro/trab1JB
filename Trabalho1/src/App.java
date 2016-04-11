@@ -25,7 +25,7 @@ public class App {
 		Map<Character, Simbol> dic = new HashMap<>();
 		
 		//Leitura de dados
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("arq2.txt"))))){
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2.txt"))))){
 			int character;
 			while((character = reader.read()) != -1){
 				char letter = (char) character;
@@ -46,6 +46,10 @@ public class App {
 			e.printStackTrace();
 			System.err.println("Erro de I/O");
 		}
+		
+		
+		
+		
 		//atualiza frequencia dos caracteres no array
 		for(Tree tree: trees){
 			Node treeNode = tree.getRoot();
@@ -53,7 +57,11 @@ public class App {
 			int freq = dicSimbol.getFrequency();
 			treeNode.setAccFreq(freq);
 			
-		}
+		}		
+		
+		
+		
+		
 		
 		//arvore de huffmann
 		unifyTrees(trees);
@@ -65,12 +73,17 @@ public class App {
 			String path = findCode(masterTree.getRoot(), simbol.getCharacter(), "");
 			simbol.setCode(path);
 		}
-		masterTree.printBonito();
+		//masterTree.printBonito();
+		//System.out.println(dic);
+		
+		
+		
+		
 		//codificação do texto
-		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("arq2.txt"))))){
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2.txt"))))){
 			int character;
 
-			File file = new File("arq2Codified.txt");
+			File file = new File("test2Codified.txt");
 
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
@@ -93,12 +106,58 @@ public class App {
 			e.printStackTrace();
 			System.err.println("Erro de I/O - deu ruim na codificação");
 		}
+		
+		
+		
+		//descodificação
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("test2Codified.txt"))))){
+			int character;
+
+			File file = new File("test2CodifiedUndo.txt");
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);			
+			
+			String code = "";
+			
+			while((character = reader.read()) != -1){
+				char letter = (char) character;
+				code = code + letter;
+				Character letra = findCharacter(masterTree, code);
+				if(letra != null){
+					bw.write(letra);
+					code = "";
+				}
+			}
+			bw.close();
+			System.out.println("Done");
+		}
+				catch(Exception e){
+			e.printStackTrace();
+			System.err.println("Erro de I/O - deu ruim na decodificação");
+		}
+	}
+	
+	private static Character findCharacter(Tree tree, String code){
+		Character letra = null;
+		Node aux = tree.getRoot();
+		for(int i = 0; i < code.length(); i++){
+			if(code.charAt(i) == '0') aux = aux.getLeft();
+			if(code.charAt(i) == '1') aux = aux.getRight();
+		}
+		if(aux.getSimbol() != null) letra = aux.getSimbol().getCharacter();
+		return letra;
 	}
 	
 	private static Tree unifyTrees(Tree tree1, Tree tree2){
 		Node nleft = tree1.getRoot();
 		Node nright = tree2.getRoot();
-		if(tree1.getRoot().getAccFreq() < tree2.getRoot().getAccFreq()){
+		if(tree1.getRoot().getAccFreq() > tree2.getRoot().getAccFreq()){
 			nleft = tree2.getRoot();
 			nright = tree1.getRoot();
 		}
