@@ -26,7 +26,7 @@ public class App {
 		
 		
 ////////////////////////////////////////////
-		File fileIn = new File("test.txt");
+		File fileIn = new File("arq3.txt");
 ////////////////////////////////////////////
 		
 		
@@ -79,7 +79,7 @@ public class App {
 		
 		
 /////////////////////////////////////////////////////////
-		File fileCodified = new File("testCodified.txt");
+		File fileCodified = new File("arq3Codified.txt");
 /////////////////////////////////////////////////////////
 		
 		
@@ -109,15 +109,16 @@ public class App {
 		}
 		
 		//descodificação
+		
+		
+//////////////////////////////////////////////////////////////////
+		File fileUncodified = new File("arq3Uncodified.txt");
+/////////////////////////////////////////////////////////////////
+		
+		
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileCodified)))){
 			int character;
 
-			
-//////////////////////////////////////////////////////////////////
-			File fileUncodified = new File("testUncodified.txt");
-/////////////////////////////////////////////////////////////////
-			
-			
 			// if file doesnt exists, then create it
 			if (!fileUncodified.exists()) {
 				fileUncodified.createNewFile();
@@ -143,6 +144,36 @@ public class App {
 				catch(Exception e){
 			e.printStackTrace();
 			System.err.println("Erro de I/O - deu ruim na decodificação");
+		}
+		
+		
+		//compara para ver se não deu bola
+		boolean resp = compara(fileIn, fileUncodified);
+		if(resp) System.out.println("Arquivos iguais - vamo clan");
+		else System.out.println("Arquivos diferentes - deu bola");
+	}
+	
+	public static boolean compara(File file1, File file2){
+		try{
+		BufferedReader reader1 = new BufferedReader(new InputStreamReader(new FileInputStream(file1)));
+		BufferedReader reader2 = new BufferedReader(new InputStreamReader(new FileInputStream(file2)));
+		
+		int letra1, letra2;
+		
+		while((letra1 = reader1.read()) != -1 && (letra2 = reader2.read()) != -1){
+			if(letra1 != letra2){
+				reader1.close();
+				reader2.close();
+				return false;
+			}
+		}
+		reader1.close();
+		reader2.close();
+		return true;
+		}
+		catch(IOException e){
+			System.err.println("deu ruim fiao");
+			return false;
 		}
 	}
 	
